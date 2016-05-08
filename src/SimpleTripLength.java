@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class SimpleTripLength {
   private static final String tripFile = "/tmp/2010_03.trips";
+  private static final String distanceFile = "tripDistances.data";
   private static List<Double> distances = new ArrayList<Double>();
 
   /**
@@ -17,15 +18,15 @@ public class SimpleTripLength {
     double dPhi = lat1 - lat2;
     double dLambda = lon1 - lon2;
     double phi_m = (lat1 + lat2) / 2;
-
     double D = R * Math.sqrt(Math.pow(dPhi, 2) + Math.pow(Math.cos(phi_m) * dLambda, 2));
-
     return D;
   }
 
-  public static void main(String[] args) throws IOException {
+  /**
+   * Read the trip distances from the input file
+   */
+  private static void readDistances(String tripFile) throws IOException {
     BufferedReader br = null;
-    
     try {
       br = new BufferedReader(new FileReader(tripFile));
       String line = null;
@@ -42,7 +43,7 @@ public class SimpleTripLength {
             distances.add(sphereDistance(lat1, lon1, lat2, lon2));
           } catch (Exception e) {
             // Ignore exception on the assumption that the data in the file was
-            // invalid (bad practice)
+            // invalid on this line (bad practice)
           }
         }
       }
@@ -51,5 +52,27 @@ public class SimpleTripLength {
         br.close();
       }
     }
+  }
+
+  /**
+   * Write list of distances to file
+   */
+  private static void writeDistances(String distanceFile) throws IOException {
+    PrintWriter pw = null;
+    try {
+      pw = new PrintWriter(new BufferedWriter(new FileWriter(distanceFile)));
+      for (double dist : distances) {
+        pw.println(dist);
+      }
+    } finally {
+      if (pw != null) {
+        pw.close();
+      }
+    }
+  }
+
+  public static void main(String[] args) throws IOException {
+    readDistances(tripFile);
+    writeDistances(distanceFile);
   }
 }
