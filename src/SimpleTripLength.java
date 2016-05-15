@@ -71,8 +71,13 @@ public class SimpleTripLength {
     }
   }
 
+  /**
+   * First argument is the file with the trip data, "/tmp/2010_03.trips" by
+   * default. Second argument is the file to write the data to,
+   * "tripDistances.data" by default.
+   */
   public static void main(String[] args) throws IOException {
-    readDistances(tripFile);
-    writeDistances(distanceFile);
+    readDistances((args.length > 0) ? args[0] : tripFile);
+    writeDistances((args.length > 1) ? args[1] : distanceFile);
   }
 }
