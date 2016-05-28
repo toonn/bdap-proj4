@@ -13,7 +13,12 @@ public class MapReduceTripLength {
    * Calculates the distance in kilometers, input in radians
    */
   private static double sphereDistance(double lat1, double lon1, double lat2, double lon2) {
-    double R = 6371009; // kilometers
+    double d2r = Math.PI/180; // Conversion factor from degrees to radians
+    lat1 *= d2r;
+    lon1 *= d2r;
+    lat2 *= d2r;
+    lon2 *= d2r;
+    double R = 6371.009; // kilometers
     double dPhi = lat1 - lat2;
     double dLambda = lon1 - lon2;
     double phi_m = (lat1 + lat2) / 2;
@@ -33,7 +38,7 @@ public class MapReduceTripLength {
           double lat2 = Double.parseDouble(trip[1]);
           double lon2 = Double.parseDouble(trip[1]);
 
-          output.collect("TheKey" ,sphereDistance(lat1, lon1, lat2, lon2));
+          output.collect("TheKey", sphereDistance(lat1, lon1, lat2, lon2));
         } catch (Exception e) {
           // Ignore exception on the assumption that the data in the file was
           // invalid on this line (bad practice)
