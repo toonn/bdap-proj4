@@ -33,7 +33,7 @@ public class MapReduceTripLength {
           double lat2 = Double.parseDouble(trip[1]);
           double lon2 = Double.parseDouble(trip[1]);
 
-          output.collect("TheKey",sphereDistance(lat1, lon1, lat2, lon2));
+          output.collect("TheKey" ,sphereDistance(lat1, lon1, lat2, lon2));
         } catch (Exception e) {
           // Ignore exception on the assumption that the data in the file was
           // invalid on this line (bad practice)
