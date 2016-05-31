@@ -26,19 +26,19 @@ public class MapReduceTripLength {
     return D;
   }
 
-  public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, String, Double> {
-    public void map(LongWritable key, Text value, OutputCollector<String, Double> output, Reporter reporter) throws IOException {
+  public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, NullWritable, Double> {
+    public void map(LongWritable key, Text value, OutputCollector<NullWritable, Double> output, Reporter reporter) throws IOException {
       String line = value.toString();
       String[] trip = line.split("\\s+");
       if (trip.length == 7) {
         // Only need the positions but only valid trips count
         try {
-          double lat1 = Double.parseDouble(trip[1]);
-          double lon1 = Double.parseDouble(trip[1]);
-          double lat2 = Double.parseDouble(trip[1]);
-          double lon2 = Double.parseDouble(trip[1]);
+          double lat1 = Double.parseDouble(trip[2]); // <start pos (lat)>
+          double lon1 = Double.parseDouble(trip[3]); // <end pos (lat)>
+          double lat2 = Double.parseDouble(trip[5]); // <start pos (long)>
+          double lon2 = Double.parseDouble(trip[6]); // <end pos (long)>
 
-          output.collect("TheKey", sphereDistance(lat1, lon1, lat2, lon2));
+          output.collect(NullWritable.get(), sphereDistance(lat1, lon1, lat2, lon2));
         } catch (Exception e) {
           // Ignore exception on the assumption that the data in the file was
           // invalid on this line (bad practice)
@@ -50,8 +50,8 @@ public class MapReduceTripLength {
   public static void main(String[] args) throws Exception {
     JobConf conf = new JobConf(MapReduceTripLength.class);
     conf.setJobName("MapReduceTripLength--toonn");
-    conf.setOutputKeyClass(Text.class);
-    conf.setOutputValueClass(IntWritable.class);
+    conf.setOutputKeyClass(NullWritable.class);
+    conf.setOutputValueClass(DoubleWritable.class);
     conf.setMapperClass(Map.class);
     conf.setNumReduceTasks(0);
     conf.setInputFormat(TextInputFormat.class);
