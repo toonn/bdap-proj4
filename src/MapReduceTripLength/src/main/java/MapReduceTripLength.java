@@ -4,7 +4,9 @@ import java.util.*;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.*;
 import org.apache.hadoop.io.*;
-import org.apache.hadoop.mapred.*;
+import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.input.*;
+import org.apache.hadoop.mapreduce.lib.output.*;
 import org.apache.hadoop.util.*;
 
 public class MapReduceTripLength {
@@ -26,8 +28,8 @@ public class MapReduceTripLength {
     return D;
   }
 
-  public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, NullWritable, Double> {
-    public void map(LongWritable key, Text value, OutputCollector<NullWritable, Double> output, Reporter reporter) throws IOException {
+  public static class Map extends Mapper<LongWritable, Text, NullWritable, Double> {
+    public void map(LongWritable key, Text value, Context context) throws IOException {
       String line = value.toString();
       String[] trip = line.split("\\s+");
       if (trip.length == 7) {
@@ -38,7 +40,7 @@ public class MapReduceTripLength {
           double lat2 = Double.parseDouble(trip[5]); // <start pos (long)>
           double lon2 = Double.parseDouble(trip[6]); // <end pos (long)>
 
-          output.collect(NullWritable.get(), sphereDistance(lat1, lon1, lat2, lon2));
+          context.write(NullWritable.get(), sphereDistance(lat1, lon1, lat2, lon2));
         } catch (Exception e) {
           // Ignore exception on the assumption that the data in the file was
           // invalid on this line (bad practice)
@@ -48,16 +50,16 @@ public class MapReduceTripLength {
   }
 
   public static void main(String[] args) throws Exception {
-    JobConf conf = new JobConf(MapReduceTripLength.class);
-    conf.setJobName("MapReduceTripLength--toonn");
-    conf.setOutputKeyClass(NullWritable.class);
-    conf.setOutputValueClass(DoubleWritable.class);
-    conf.setMapperClass(Map.class);
-    conf.setNumReduceTasks(0);
-    conf.setInputFormat(TextInputFormat.class);
-    conf.setOutputFormat(TextOutputFormat.class);
-    FileInputFormat.setInputPaths(conf, new Path(args[0]));
-    FileOutputFormat.setOutputPath(conf, new Path(args[1]));
-    JobClient.runJob(conf);
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, "MapReduceTripLength--toonn");
+    job.setJarByClass(MapReduceTripLength.class);
+    job.setOutputKeyClass(NullWritable.class);
+    job.setOutputValueClass(DoubleWritable.class);
+    job.setMapperClass(Map.class);
+    job.setNumReduceTasks(0);
+    FileInputFormat.setMaxInputSplitSize(job, 1000000);
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 }
