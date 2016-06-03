@@ -15,13 +15,13 @@ public class Segment implements Writable {
   private double endLat;
   private double endLon;
 
-  public Segment(Calendar startDate, Calendar endDate, String startStatus, double startLat, double startLon, double endLat, double endLon) {
+  public Segment(Calendar startDate, Calendar endDate, char startStatus, double startLat, double startLon, double endLat, double endLon) {
     set(startDate, endDate, startStatus, startLat, startLon, endLat, endLon);
   }
 
-  public void set(Calendar startDate, Calendar endDate, String startStatus, double startLat, double startLon, double endLat, double endLon) {
+  public void set(Calendar startDate, Calendar endDate, char startStatus, double startLat, double startLon, double endLat, double endLon) {
     this.hours = (endDate.getTimeInMillis() - startDate.getTimeInMillis()) / (60 * 60 * 1000.0);
-    this.full = ("F" == startStatus);
+    this.full = ('F' == startStatus);
     this.startLat = startLat;
     this.startLon = startLon;
     this.endLat = endLat;
