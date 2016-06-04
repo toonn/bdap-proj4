@@ -7,19 +7,20 @@ import org.apache.hadoop.mapreduce.*;
 
 import static distance.Distance.*;
 
-public class Reduce extends Reducer<LongWritable, Segment, NullWritable, Text> {
+public class Reduce extends Reducer<LongWritable, Segment, NullWritable, Segment> {
   private Queue<Segment> full = new ArrayDeque<Segment>();
   private Queue<Segment> empty = new ArrayDeque<Segment>();
 
-  public void Reduce(LongWritable key, Iterable<Segment> values, Context context) throws IOException, InterruptedException {
+  @Override
+  public void reduce(LongWritable key, Iterable<Segment> values, Context context) throws IOException, InterruptedException {
     split(values);
     List<Segment> fullTrips = merge(full);
     List<Segment> emptyTrips = merge(empty);
     for (Segment trip : fullTrips) {
-      context.write(NullWritable.get(), new Text(trip.toString()));
+      context.write(NullWritable.get(), trip);
     }
     for (Segment trip : emptyTrips) {
-      context.write(NullWritable.get(), new Text(trip.toString()));
+      context.write(NullWritable.get(), trip);
     }
   }
 

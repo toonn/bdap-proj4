@@ -8,6 +8,7 @@ import org.apache.hadoop.mapreduce.*;
 public class Map extends Mapper<LongWritable, Text, LongWritable, Segment> {
   private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
+  @Override
   public void map(LongWritable key, Text value, Context context) throws IOException {
     Calendar startDate = Calendar.getInstance(TimeZone.getTimeZone("America/San_Francisco"));
     Calendar endDate = Calendar.getInstance(TimeZone.getTimeZone("America/San_Francisco"));

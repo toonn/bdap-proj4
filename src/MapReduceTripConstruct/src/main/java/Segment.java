@@ -31,7 +31,7 @@ public class Segment implements Writable {
 
   public void set(Calendar startDate, Calendar endDate, char startStatus, double startLat, double startLon, double endLat, double endLon) {
     this.hours = (endDate.getTimeInMillis() - startDate.getTimeInMillis()) / (60 * 60 * 1000.0);
-    this.full = ('F' == startStatus);
+    this.full = ('E' != startStatus);
     this.startLat = startLat;
     this.startLon = startLon;
     this.endLat = endLat;
@@ -104,6 +104,7 @@ public class Segment implements Writable {
    * to those of s, keeping it's filled status;
    */
   public void merge(Segment s) {
+    hours += s.getHours();
     if (endLat == s.getStartLat() && endLon == s.getStartLon()) {
       endLat = s.getEndLat();
       endLon = s.getEndLon();

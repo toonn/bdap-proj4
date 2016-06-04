@@ -17,10 +17,10 @@ public class MapReduceTripConstruct {
     job.setMapOutputKeyClass(LongWritable.class);
     job.setMapOutputValueClass(Segment.class);
     job.setOutputKeyClass(NullWritable.class);
-    job.setOutputValueClass(Text.class);
+    job.setOutputValueClass(Segment.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
-    //job.setNumReduceTasks(0);
+    //job.setNumReduceTasks(1);
     FileInputFormat.setMaxInputSplitSize(job, 1000000);
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
