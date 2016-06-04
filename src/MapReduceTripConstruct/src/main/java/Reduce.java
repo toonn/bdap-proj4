@@ -29,9 +29,9 @@ public class Reduce extends Reducer<LongWritable, Segment, NullWritable, Text> {
     // is O(n^2): each segment has to be compared with every other segment.
     for (Segment value : values) {
       if (value.isFull()) {
-        full.add(value);
+        full.add(new Segment(value));
       } else {
-        empty.add(value);
+        empty.add(new Segment(value));
       }
     }
   }

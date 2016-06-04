@@ -14,11 +14,13 @@ public class MapReduceTripConstruct {
     Configuration conf = new Configuration();
     Job job = Job.getInstance(conf, "MapReduceTripConstruct--toonn");
     job.setJarByClass(MapReduceTripConstruct.class);
+    job.setMapOutputKeyClass(LongWritable.class);
+    job.setMapOutputValueClass(Segment.class);
     job.setOutputKeyClass(NullWritable.class);
     job.setOutputValueClass(Text.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
-    job.setNumReduceTasks(0);
+    //job.setNumReduceTasks(0);
     FileInputFormat.setMaxInputSplitSize(job, 1000000);
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));

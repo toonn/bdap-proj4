@@ -1,19 +1,29 @@
 import java.io.*;
 import java.util.*;
-import java.text.*;
 
 import org.apache.hadoop.io.*;
 
 import static distance.Distance.*;
 
 public class Segment implements Writable {
-  private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
   private double hours;
   private boolean full;
   private double startLat;
   private double startLon;
   private double endLat;
   private double endLon;
+
+  public Segment() {
+  }
+
+  public Segment(Segment s) {
+    this.hours = s.getHours();
+    this.full = s.isFull();
+    this.startLat = s.getStartLat();
+    this.startLon = s.getStartLon();
+    this.endLat = s.getEndLat();
+    this.endLon = s.getEndLon();
+  }
 
   public Segment(Calendar startDate, Calendar endDate, char startStatus, double startLat, double startLon, double endLat, double endLon) {
     set(startDate, endDate, startStatus, startLat, startLon, endLat, endLon);
@@ -57,6 +67,10 @@ public class Segment implements Writable {
     } else {
       return 0.0;
     }
+  }
+
+  public double getHours() {
+    return hours;
   }
 
   public boolean isFull() {
