@@ -98,4 +98,8 @@ public class Segment implements Writable {
       startLon = s.getStartLon();
     }
   }
+
+  public String toString() {
+    return hours + " " + full + " " + startLat + " " + startLon + " " + endLat + " " + endLon;
+  }
 }
