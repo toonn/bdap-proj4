@@ -25,7 +25,11 @@ public class Map extends Mapper<LongWritable, Text, Long, Segment> {
         double lat2 = Double.parseDouble(trip[6]); // <start pos (long)>
         double lon2 = Double.parseDouble(trip[7]); // <end pos (long)>
 
-        context.write(taxi, new Segment(startDate, endDate, startStatus, lat1, lon1, lat2, lon2));
+        Segment s = new Segment(startDate, endDate, startStatus, lat1, lon1, lat2, lon2);
+        // Drop segments with an avg speed above 200 km/h
+        if (s.getAvgSpeed() <= 200) {
+          context.write(taxi, s);
+        }
       } catch (Exception e) {
         // Ignore exception on the assumption that the data in the file was
         // invalid on this line (bad practice)
