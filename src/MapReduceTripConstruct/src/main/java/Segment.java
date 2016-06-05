@@ -1,11 +1,14 @@
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
 import org.apache.hadoop.io.*;
 
 import static distance.Distance.*;
 
 public class Segment implements Writable {
+  private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+  private Calendar date = Calendar.getInstance(TimeZone.getTimeZone("America/San_Francisco"));
   private double hours;
   private boolean full;
   private double startLat;
@@ -30,6 +33,7 @@ public class Segment implements Writable {
   }
 
   public void set(Calendar startDate, Calendar endDate, char startStatus, double startLat, double startLon, double endLat, double endLon) {
+    this.date = startDate;
     this.hours = (endDate.getTimeInMillis() - startDate.getTimeInMillis()) / (60 * 60 * 1000.0);
     this.full = ('E' != startStatus);
     this.startLat = startLat;
@@ -39,6 +43,7 @@ public class Segment implements Writable {
   }
 
   public void write(DataOutput out) throws IOException {
+    out.writeUTF(sdf.format(date));
     out.writeDouble(hours);
     out.writeBoolean(full);
     out.writeDouble(startLat);
@@ -48,6 +53,11 @@ public class Segment implements Writable {
   }
 
   public void readFields(DataInput in) throws IOException {
+    try {
+      date.setTime(sdf.parse(in.readUTF()));
+    } catch (ParseException e) {
+      date.setTimeInMillis(0);
+    }
     hours = in.readDouble();
     full = in.readBoolean();
     startLat = in.readDouble();
@@ -67,6 +77,10 @@ public class Segment implements Writable {
     } else {
       return 0.0;
     }
+  }
+
+  public Calendar getDate() {
+    return date;
   }
 
   public double getHours() {
@@ -111,10 +125,11 @@ public class Segment implements Writable {
     } else {
       startLat = s.getStartLat();
       startLon = s.getStartLon();
+      date = s.getDate();
     }
   }
 
   public String toString() {
-    return hours + " " + full + " " + startLat + " " + startLon + " " + endLat + " " + endLon;
+    return sdf.format(date) + " " + hours + " " + full + " " + startLat + " " + startLon + " " + endLat + " " + endLon;
   }
 }
