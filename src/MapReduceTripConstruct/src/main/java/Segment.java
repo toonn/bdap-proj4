@@ -43,7 +43,7 @@ public class Segment implements Writable {
   }
 
   public void write(DataOutput out) throws IOException {
-    out.writeUTF(sdf.format(date));
+    out.writeUTF(sdf.format(date.getTime()));
     out.writeDouble(hours);
     out.writeBoolean(full);
     out.writeDouble(startLat);
@@ -130,6 +130,6 @@ public class Segment implements Writable {
   }
 
   public String toString() {
-    return sdf.format(date) + " " + hours + " " + full + " " + startLat + " " + startLon + " " + endLat + " " + endLon;
+    return sdf.format(date.getTime()) + " " + hours + " " + full + " " + startLat + " " + startLon + " " + endLat + " " + endLon;
   }
 }

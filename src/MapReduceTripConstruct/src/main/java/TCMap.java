@@ -32,6 +32,7 @@ public class TCMap extends Mapper<LongWritable, Text, LongWritable, Segment> {
           context.write(new LongWritable(taxi), s);
         }
       } catch (Exception e) {
+        e.printStackTrace();
         // Ignore exception on the assumption that the data in the file was
         // invalid on this line (bad practice)
       }
