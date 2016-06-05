@@ -7,8 +7,8 @@ import org.apache.hadoop.mapreduce.*;
 
 import static distance.Distance.*;
 
-public class TRReduce extends Reducer<LongWritable, Segment, NullWritable, Segment> {
-  private Queue<Segment> full = new ArrayDeque<Segment>();
+public class TCReduce extends Reducer<LongWritable, Segment, NullWritable, Segment> {
+  private ArrayDeque<Segment> full = new ArrayDeque<Segment>();
   private Queue<Segment> empty = new ArrayDeque<Segment>();
 
   @Override

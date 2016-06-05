@@ -20,6 +20,7 @@ public class Segment implements Writable {
   }
 
   public Segment(Segment s) {
+    this.date = (Calendar) s.getDate().clone();
     this.hours = s.getHours();
     this.full = s.isFull();
     this.startLat = s.getStartLat();
@@ -56,6 +57,7 @@ public class Segment implements Writable {
     try {
       date.setTime(sdf.parse(in.readUTF()));
     } catch (ParseException e) {
+      e.printStackTrace();
       date.setTimeInMillis(0);
     }
     hours = in.readDouble();
@@ -131,5 +133,23 @@ public class Segment implements Writable {
 
   public String toString() {
     return sdf.format(date.getTime()) + " " + hours + " " + full + " " + startLat + " " + startLon + " " + endLat + " " + endLon;
+  }
+
+  public void parse(String segmentString) {
+    String[] parts = segmentString.split("\\s+");
+    // 8 parts because date is split as well
+    if (parts.length == 8) {
+      try {
+        date.setTime(sdf.parse(parts[0]+ " " + parts[1]));
+      } catch (ParseException e) {
+        date.setTimeInMillis(0);
+      }
+      hours = Double.parseDouble(parts[2]);
+      full = Boolean.parseBoolean(parts[3]);
+      startLat = Double.parseDouble(parts[4]);
+      startLon = Double.parseDouble(parts[5]);
+      endLat = Double.parseDouble(parts[6]);
+      endLon = Double.parseDouble(parts[7]);
+    }
   }
 }

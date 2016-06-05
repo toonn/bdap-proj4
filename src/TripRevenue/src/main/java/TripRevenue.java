@@ -12,12 +12,12 @@ import org.apache.hadoop.util.*;
 public class TripRevenue {
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, "MapReduceTripConstruct--toonn");
+    Job job = Job.getInstance(conf, "MapReduceTripRevenue--toonn");
     job.setJarByClass(TripConstruct.class);
     job.setMapOutputKeyClass(LongWritable.class);
     job.setMapOutputValueClass(Segment.class);
     job.setOutputKeyClass(NullWritable.class);
-    job.setOutputValueClass(Segment.class);
+    job.setOutputValueClass(Text.class);
     job.setMapperClass(TRMap.class);
     job.setReducerClass(TRReduce.class);
     //job.setNumReduceTasks(1);
