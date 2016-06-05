@@ -5,7 +5,7 @@ import java.text.*;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.*;
 
-public class Map extends Mapper<LongWritable, Text, LongWritable, Segment> {
+public class TCMap extends Mapper<LongWritable, Text, LongWritable, Segment> {
   private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
   @Override

@@ -9,17 +9,17 @@ import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
 import org.apache.hadoop.util.*;
 
-public class MapReduceTripConstruct {
+public class TripConstruct {
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
     Job job = Job.getInstance(conf, "MapReduceTripConstruct--toonn");
-    job.setJarByClass(MapReduceTripConstruct.class);
+    job.setJarByClass(TripConstruct.class);
     job.setMapOutputKeyClass(LongWritable.class);
     job.setMapOutputValueClass(Segment.class);
     job.setOutputKeyClass(NullWritable.class);
     job.setOutputValueClass(Segment.class);
-    job.setMapperClass(Map.class);
-    job.setReducerClass(Reduce.class);
+    job.setMapperClass(TCMap.class);
+    job.setReducerClass(TCReduce.class);
     //job.setNumReduceTasks(1);
     FileInputFormat.setMaxInputSplitSize(job, 1000000);
     FileInputFormat.addInputPath(job, new Path(args[0]));
