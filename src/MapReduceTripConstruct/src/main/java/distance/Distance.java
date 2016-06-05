@@ -2,7 +2,7 @@ package distance;
 
 public class Distance {
   /**
-   * Calculates the distance in kilometers, input in radians
+   * Calculates the distance in kilometers, input in degrees
    */
   public static double sphereDistance(double lat1, double lon1, double lat2, double lon2) {
     double d2r = Math.PI/180; // Conversion factor from degrees to radians
