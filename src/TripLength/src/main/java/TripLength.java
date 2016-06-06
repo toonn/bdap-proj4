@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
 import org.apache.hadoop.util.*;
 
-public class MapReduceTripLength {
+public class TripLength {
 
   /**
    * Calculates the distance in kilometers, input in radians
@@ -51,8 +51,8 @@ public class MapReduceTripLength {
 
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, "MapReduceTripLength--toonn");
-    job.setJarByClass(MapReduceTripLength.class);
+    Job job = Job.getInstance(conf, "TripLength--toonn");
+    job.setJarByClass(TripLength.class);
     job.setOutputKeyClass(NullWritable.class);
     job.setOutputValueClass(DoubleWritable.class);
     job.setMapperClass(Map.class);
