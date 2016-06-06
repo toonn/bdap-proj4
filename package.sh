@@ -2,11 +2,11 @@
 mkdir ToonNoltenAssignment4
 cd src/TripLength
 mvn install
-mv target/Excercise1.jar ../../ToonNoltenAssignment4/
+mv target/Exercise1-0.0.jar ../../ToonNoltenAssignment4/Exercise1.jar
 mvn clean
 cd ../TripRevenue
 mvn install
-mv target/Excercise2.jar ../../ToonNoltenAssignment4/
+mv target/Exercise2-0.0.jar ../../ToonNoltenAssignment4/Exercise2.jar
 mvn clean
 cd ../../ToonNoltenAssignment4
 cp ../README .
