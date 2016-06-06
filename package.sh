@@ -1,17 +1,17 @@
 #! /bin/sh
-mkdir ToonNoltenAssignment4
+mkdir Toon_Nolten-Assignment4
 cd src/TripLength
 mvn install
-mv target/Exercise1-0.0.jar ../../ToonNoltenAssignment4/Exercise1.jar
+mv target/Exercise1-0.0.jar ../../Toon_Nolten-Assignment4/Exercise1.jar
 mvn clean
 cd ../TripRevenue
 mvn install
-mv target/Exercise2-0.0.jar ../../ToonNoltenAssignment4/Exercise2.jar
+mv target/Exercise2-0.0.jar ../../Toon_Nolten-Assignment4/Exercise2.jar
 mvn clean
-cd ../../ToonNoltenAssignment4
+cd ../../Toon_Nolten-Assignment4
 cp ../README .
 cp ../report.pdf .
-cp ../src/ .
+cp -r ../src/ .
 cd ..
-tar czf Toon_Nolten-Assignment4.tar.gz ToonNoltenAssignment4
-rm -r ToonNoltenAssignment4
+tar czf Toon_Nolten-Assignment4.tar.gz Toon_Nolten-Assignment4
+rm -r Toon_Nolten-Assignment4
