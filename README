@@ -1,1 +1,37 @@
-#Commands to run on the cluster
+#! /bin/sh
+# This README can double as an executable script, comment/uncomment
+# what you want/don't want to run.
+
+# Exercise 1
+# To Compile, this requires maven 3
+
+#cd src/TripLength
+#mvn install
+#mv target/Exercise1-0.0.jar ../../Exercise1.jar
+#mvn clean
+#cd ../..
+
+# To run
+# Simple Trip Length
+
+#java -cp Exercise1.jar SimpleTripLength <inputfile> <outputfile>
+
+# MapReduce Trip Length
+
+#yarn jar Exercise1.jar TripLength <inputfile> <outputdir>
+#hadoop fs -getmerge -nl <outputdir> <outputfile>
+
+# Exercise 2
+# To Compile, this requires maven 3
+
+#cd src/TripRevenue
+#mvn install
+#mv target/Exercise2-0.0.jar ../../Exercise2.jar
+#mvn clean
+#cd ../..
+
+# To run
+
+#yarn jar Exercise2.jar TripConstruct <input.segments> <intermediatedir>
+#yarn jar Exercise2.jar TripRevenue <intermediatedir> <outputdir>
+#hadoop fs -getmerge -nl <outputdir> <outputfile>
